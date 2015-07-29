@@ -6,7 +6,7 @@ Setup and description
 
 You create a wireless network station **(A1)** with one hidden node **(N1)** like this:
 
-<first image here>
+.. image:: ./images/1-the-hidden-node-problem.svg
 
 To avoid collision issues when communicating on a shared medium a media access control
 method called **CSMA/CA RTS/CTS** is used.
