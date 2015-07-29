@@ -6,7 +6,7 @@ Setup and description
 
 You create a mesh cloud of 7 identical wireless routers near by (5m radius) like this:
 
-<first image here>
+.. image:: ./images/3-the-mesh-of-death-adversity.svg
 
 *(Unlike drawn, routers will be fully connected to each other.)*
 
