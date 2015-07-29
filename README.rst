@@ -7,6 +7,10 @@ This repository contains the documentation and results of tests executed during 
 
 Currently work in progress, contributions are very welcome.
 
+**The documentation is published at:**
+
+http://battlemesh-test-docs.readthedocs.org/
+
 How to build the docs
 ---------------------
 
