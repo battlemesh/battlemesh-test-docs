@@ -6,7 +6,7 @@ Setup and description
 
 You create a PowerLAN setup with 3 adapters lined up like this:
 
-<first image here>
+.. image:: ./images/2-the-powerlan-conundrum.svg
 
 PowerLAN technology is mostly working peer-to-peer based and should also support mesh
 network protocols. Since many end-users benefit from PowerLAN when connecting their homes
