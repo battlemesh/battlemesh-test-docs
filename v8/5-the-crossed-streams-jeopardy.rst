@@ -6,7 +6,7 @@ Setup and description
 
 You create a large mesh cloud of 20 routers spread all over the place like this:
 
-<first image here>
+.. image:: ./images/5-the-crossed-streams-jeopardy.svg
 
 You can use your laptops or any other wired device (L1 .. L4) to connect to the wireless
 edge routers.
