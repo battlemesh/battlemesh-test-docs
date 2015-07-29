@@ -10,3 +10,4 @@ Contents:
    :maxdepth: 2
 
    /v8/1-the-hidden-node-problem
+   /v8/2-the-powerlan-conundrum
