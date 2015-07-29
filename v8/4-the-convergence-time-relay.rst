@@ -6,7 +6,7 @@ Setup and description
 
 You create a large mesh cloud of 20 routers spread all over the place like this:
 
-<first image here>
+.. image:: ./images/4-the-convergence-time-relay.svg
 
 The metric of L1 → GW1 needs to be a lot better than the metric of L1 → GW2 (see dotted
 line in figure above), while GW1 and GW2 are both gateways announcing the address of L2.
