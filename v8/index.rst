@@ -11,3 +11,4 @@ Contents:
 
    /v8/1-the-hidden-node-problem
    /v8/2-the-powerlan-conundrum
+   /v8/3-the-mesh-of-death-adversity
