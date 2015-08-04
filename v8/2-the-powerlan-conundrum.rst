@@ -1,23 +1,25 @@
 Scenario 2: The PowerLAN Conundrum
 ==================================
 
-Setup and description
----------------------
+Scenario
+--------
 
-*Scenario*
+
 
 PowerLAN (or Powerline communication) is a networking technology that emulates an ethernet connection over existing electrical wiring.
 Using this technology, nodes can be connected through power outlets rather than routers.
 Running the network over existing power lines reduces the need for extra ethernet cabling and wifi noise.
 
-*Topology*
+Topology
+--------
 
 Seeing as power lines are generally interconnected, the resulting network(segment) can be seen as a simple bus topology.
 A typical PowerLAN setup with 3 adapters looks like this:
 
 .. image:: ./images/2-the-powerlan-conundrum.svg
 
-*Problems*
+Problems
+--------
 
 While mostly similar to an ethernet network, PowerLAN knows a few unique difficulties.
 First and foremost powerlines and their routing are designed to supply electricity to a building, rather than carry high-speed communication data.

@@ -1,19 +1,39 @@
 Scenario 3: The Mesh of Death Adversity
 =======================================
 
-Setup and description
----------------------
+Scenario
+--------
 
-You create a mesh cloud of 7 identical wireless routers near by (5m radius) like this:
+This scenario contains two aspects which come into play when wifi nodes are placed in close proximity.
+
+First of all, as described in the Hidden Node issue, a Wi-Fi adapter is either transmitting or receiving.
+To properly function, this requires some form of medium access control, which defines who can transmit when.
+Having a lot of different transmitters nearby, should cause more difficult medium access control.
+
+Secondly, the routing protocols require information about the network topology to calculate the best path to send packets.
+In order to obtain this information, protocols may send special packets to probe which node is connected to whom and how well.
+When the MAC protocol gets strained from the data being sent by all nodes, this could cause timeouts for such probes.
+
+Topology
+--------
+
+a. Single channel
+b. Multi channel/multi-cast
+
+
+In the first topology, the network will consist of six nodes, which are almost fully connected.
+What will be tested is the the routing from A to D.
+
+In this topology there are different ways the protocols can route the packets, yet it's compact enough to properly notice the wi-fi interference.
 
 .. image:: ./images/3-the-mesh-of-death-adversity.svg
 
-*(Unlike drawn, routers will be fully connected to each other.)*
+Problems
+--------
 
-Mesh routing protocols implement algorithms to decide which path will be used to transport
-payload packets. If many routers stand close by it is unlikely to get stable routing paths
-and much protocol traffic will be generated in most cases. In real-life scenarios and with
-bad configuration this can lead to massive problems often uncovered.
+First of all, the interference from the different Wi-Fi radios should make transmissions a bit more troublesome, causing issues even without any routing protocol.
+Adding the strain from all the topology probes, can break badly configured protocols.
+
 
 Test plan
 ---------
