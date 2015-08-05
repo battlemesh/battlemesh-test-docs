@@ -20,7 +20,7 @@ Topology
 We have two topologies, we'll run tests on both in two modes:
 
 a. **Single channel**
-b. **Multi channel/multi-cast**
+b. **Multi channel**
 
 First topology: (almost) full mesh
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
