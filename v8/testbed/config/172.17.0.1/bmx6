@@ -1,0 +1,28 @@
+config 'dev' 'mesh_1'
+        option 'dev' 'eth0.1'
+
+config 'dev' 'mesh_2'
+        option 'dev' 'wlan0'
+
+config 'dev' 'mesh_3'
+        option 'dev' 'wlan1'
+
+config 'tunDev' default
+        option 'tunDev' 'default'
+        option 'tun6Address' 'fd87::1/128'
+        option 'tun4Address' '172.17.0.1/24'
+
+config 'tunOut'
+        option 'tunOut' 'ip6'
+        option 'network' 'fd87::/64'
+
+config 'tunOut'
+        option 'tunOut' 'ip4'
+        option 'network' '0.0.0.0/0'
+
+config tunIn
+	option tunIn ip4In
+	option network '10.0.0.2/32'
+
+
+
