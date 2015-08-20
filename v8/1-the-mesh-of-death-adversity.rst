@@ -100,27 +100,15 @@ The tests mainly consist in generating traffic from a client connected to
 * **ping + iperf**: ping RTT with simultaneous 10 Mbit/s UDP Iperf stream
 
 .. note::
-   **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__
+   **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__.
+
+   **ECDF** stands for `Empirical Cumulative Distribution Function <https://en.wikipedia.org/wiki/Empirical_distribution_function>`__.
+
 
 Results
 -------
 
 Graphs and raw data are provided for each test.
-
-reboot
-^^^^^^
-
-Raw data
-
-ping
-^^^^
-
-Raw data
-
-ping + iperf
-^^^^^^^^^^^^
-
-Raw data
 
 .. note::
    The graphs were generated with the following command (requires the R programming language)::
@@ -129,3 +117,73 @@ Raw data
 
    the script `generic.R
    <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/generic.R>`__ is available on github.
+
+reboot
+^^^^^^
+
+Measured RTT in ECDF graph:
+
+.. image:: ./data/results/001-20150808/1/rtt-ecdf-summary.svg
+   :target: ../_images/rtt-ecdf-summary.svg
+
+Measured RTT in classic graph:
+
+.. image:: ./data/results/001-20150808/1/rtt-normal-summary.svg
+   :target: ../_images/rtt-normal-summary.svg
+
+
+.. note::
+   `Raw data for this test
+   <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/001-20150808/1>`__
+   is available on github.
+
+ping
+^^^^
+
+Measured RTT in ECDF graph:
+
+.. image:: ./data/results/001-20150808/2/rtt-ecdf-summary.svg
+   :target: ../_images/rtt-ecdf-summary1.svg
+
+Measured RTT in classic graph:
+
+.. image:: ./data/results/001-20150808/2/rtt-normal-summary.svg
+   :target: ../_images/rtt-normal-summary1.svg
+
+
+.. note::
+   `Raw data for this test
+   <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/001-20150808/2>`__
+   is available on github.
+
+
+ping + iperf
+^^^^^^^^^^^^
+
+Measured RTT in ECDF graph:
+
+.. image:: ./data/results/001-20150808/3/rtt-ecdf-summary.svg
+   :target: ../_images/rtt-ecdf-summary2.svg
+
+Measured RTT in classic graph:
+
+.. image:: ./data/results/001-20150808/3/rtt-normal-summary.svg
+   :target: ../_images/rtt-normal-summary2.svg
+
+Measured Bitrate in ECDF graph:
+
+.. image:: ./data/results/001-20150808/3/bitrate-ecdf-summary.svg
+   :target: ../_images/bitrate-ecdf-summary.svg
+
+Measured Bitrate in classic graph:
+
+.. image:: ./data/results/001-20150808/3/bitrate-normal-summary.svg
+   :target: ../_images/bitrate-normal-summary.svg
+
+
+.. note::
+   `Raw data for this test
+   <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/001-20150808/3>`__
+   is available on github.
+
+
