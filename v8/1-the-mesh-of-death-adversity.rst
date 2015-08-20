@@ -1,5 +1,5 @@
-Scenario 1: The Mesh of Death Adversity
-=======================================
+1. The Mesh of Death Adversity
+==============================
 
 .. image:: ./images/1-the-mesh-of-death-adversity.svg
 
