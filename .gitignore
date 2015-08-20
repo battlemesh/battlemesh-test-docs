@@ -5,3 +5,4 @@
 /_build
 /_static
 /_templates
+/v8/data/results/*/*/*/*.svg
