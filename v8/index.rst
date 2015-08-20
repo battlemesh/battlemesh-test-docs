@@ -9,8 +9,6 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   /v8/1-the-hidden-node-problem
-   /v8/2-the-powerlan-conundrum
-   /v8/3-the-mesh-of-death-adversity
-   /v8/4-the-convergence-time-relay
-   /v8/5-the-crossed-streams-jeopardy
+   /v8/1-the-mesh-of-death-adversity
+   /v8/2-the-crossed-streams-jeopardy
+   /v8/3-blowing-up-the-network
