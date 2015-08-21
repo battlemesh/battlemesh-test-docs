@@ -1,7 +1,15 @@
 2. The Crossed Streams Jeopardy
 ===============================
 
-Here we will put tests 4 and 4 with 100 mbit.
+.. image:: ./images/2-the-crossed-streams-jeopardy.svg
+
+.. warning::
+    To perform the crossed streams tests we had to reuse the
+    topology prepared for :doc:`The Mesh of Death Adversity Test
+    <1-the-mesh-of-death-adversity>` because we were running out of time.
+
+    Therefore this scenario inherits all the settings of the previous test
+    but adds an additional stream of traffic to stress test the network.
 
 Test
 ----
@@ -9,13 +17,13 @@ Test
 .. note::
     The test scripts are available on github:
 
-    * `10mbit iperf streams <https://github.com/battlemesh/battlemesh-test-docs/blob/master/v8/testbed/scripts/run_test_1-4.sh#L92-L106>`__,
-    * `100mbit iperf streams <https://github.com/battlemesh/battlemesh-test-docs/blob/master/v8/testbed/scripts/run_test_4-5.sh#L43-L57>`__,
+    * `10mbit iperf streams <https://github.com/battlemesh/battlemesh-test-docs/blob/master/v8/testbed/scripts/run_test_1-4.sh#L92-L106>`__
+    * `100mbit iperf streams <https://github.com/battlemesh/battlemesh-test-docs/blob/master/v8/testbed/scripts/run_test_4-5.sh#L43-L57>`__
 
-The tests mainly consist in measuring ping *Round Trip Time* from **client** to **server** while generating two streams of traffic:
+The tests mainly consisted in measuring ping *Round Trip Time* and throughput from **client** to **server** while generating two streams of traffic:
 
 1. from the **client** connected to **A** to the **server** connected **K**
-2. from node **D** to node **H**
+2. from node **D** (*cross client*) to node **H** (*cross server*)
 
 The measurements where collected from **A**.
 
@@ -54,12 +62,12 @@ Measured RTT in classic graph:
 .. image:: ./data/results/001-20150808/4/rtt-normal-summary.svg
    :target: ../_images/rtt-normal-summary3.svg
 
-Measured Bitrate in ECDF graph:
+Measured Bitrate (from **client** to **server**) in ECDF graph:
 
 .. image:: ./data/results/001-20150808/4/bitrate-ecdf-summary.svg
    :target: ../_images/bitrate-ecdf-summary1.svg
 
-Measured Bitrate in classic graph:
+Measured Bitrate (from **client** to **server**) in classic graph:
 
 .. image:: ./data/results/001-20150808/4/bitrate-normal-summary.svg
    :target: ../_images/bitrate-normal-summary1.svg
@@ -83,12 +91,12 @@ Measured RTT in classic graph:
 .. image:: ./data/results/002-20150808/4/rtt-normal-summary.svg
    :target: ../_images/rtt-normal-summary4.svg
 
-Measured Bitrate in ECDF graph:
+Measured Bitrate (from **client** to **server**) in ECDF graph:
 
 .. image:: ./data/results/002-20150808/4/bitrate-ecdf-summary.svg
    :target: ../_images/bitrate-ecdf-summary2.svg
 
-Measured Bitrate in classic graph:
+Measured Bitrate (from **client** to **server**) in classic graph:
 
 .. image:: ./data/results/002-20150808/4/bitrate-normal-summary.svg
    :target: ../_images/bitrate-normal-summary2.svg
@@ -98,4 +106,3 @@ Measured Bitrate in classic graph:
    `Raw data for this test
    <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/002-20150808/4>`__
    is available on github.
-
