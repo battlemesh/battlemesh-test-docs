@@ -63,6 +63,9 @@ Configuration
     `available on github
     <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/testbed/config>`__.
 
+    The `binary of the firmware <http://battlemesh.org/BattleMeshV8/Firmware>`__
+    is also available.
+
 Each node is a dual radio wireless router (TP-Link WDR4300), the most important facts
 related to the configuration are:
 
