@@ -87,7 +87,7 @@ Test
 
 .. note::
     The test script is `available on github
-    <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/testbed/scripts/run_test_1-4.sh>`__,
+    <https://github.com/battlemesh/battlemesh-test-docs/blob/master/v8/testbed/scripts/run_test_1-4.sh#L46-L90>`__,
     the relevant sections are test 1, 2 and 3.
 
 The tests mainly consist in generating traffic from a client connected to
@@ -95,14 +95,13 @@ The tests mainly consist in generating traffic from a client connected to
 
 3 different tests were performed:
 
-* **reboot**: ping RTT measurement while the mesh is rebooted; measure time until connectivity
-* **ping**: ping RTT measurement
-* **ping + iperf**: ping RTT with simultaneous 10 Mbit/s UDP Iperf stream
+* **reboot**: measure ping RTT while the mesh is rebooted
+* **ping**: only measure ping RTT
+* **ping + iperf**: measure ping RTT with a simultaneous 10 Mbit/s UDP Iperf stream
 
 .. note::
-   **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__.
-
-   **ECDF** stands for `Empirical Cumulative Distribution Function <https://en.wikipedia.org/wiki/Empirical_distribution_function>`__.
+   * **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__.
+   * **ECDF** stands for `Empirical Cumulative Distribution Function <https://en.wikipedia.org/wiki/Empirical_distribution_function>`__.
 
 
 Results
