@@ -90,19 +90,18 @@ Test
     <https://github.com/battlemesh/battlemesh-test-docs/blob/master/v8/testbed/scripts/run_test_1-4.sh#L46-L90>`__,
     the relevant sections are test 1, 2 and 3.
 
-The tests mainly consist in generating traffic from a client connected to
-**A** to a server connected **K**. The measurements where collected from **A**.
+The tests mainly consisted in generating traffic from a client connected to
+**A** to a server connected **K**. The measurements were collected from **A**.
 
 3 different tests were performed:
 
 * **reboot**: measure ping RTT while the mesh is rebooted
 * **ping**: only measure ping RTT
-* **ping + iperf**: measure ping RTT with a simultaneous 10 Mbit/s UDP Iperf stream
+* **ping + iperf**: measure ping RTT and throughput of a 10 Mbit/s UDP Iperf stream running simultaneously
 
 .. note::
-   * **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__.
-   * **ECDF** stands for `Empirical Cumulative Distribution Function <https://en.wikipedia.org/wiki/Empirical_distribution_function>`__.
-
+   * **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__
+   * **ECDF** stands for `Empirical Cumulative Distribution Function <https://en.wikipedia.org/wiki/Empirical_distribution_function>`__
 
 Results
 -------
@@ -184,5 +183,3 @@ Measured Bitrate in classic graph:
    `Raw data for this test
    <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/001-20150808/3>`__
    is available on github.
-
-
