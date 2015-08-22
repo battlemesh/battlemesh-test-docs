@@ -171,12 +171,7 @@ Measured RTT in classic graph:
 .. image:: ./data/results/001-20150808/3/rtt-normal-summary.svg
    :target: ../_images/rtt-normal-summary2.svg
 
-Measured Bitrate in ECDF graph:
-
-.. image:: ./data/results/001-20150808/3/bitrate-ecdf-summary.svg
-   :target: ../_images/bitrate-ecdf-summary.svg
-
-Measured Bitrate in classic graph:
+Measured Bitrate:
 
 .. image:: ./data/results/001-20150808/3/bitrate-normal-summary.svg
    :target: ../_images/bitrate-normal-summary.svg

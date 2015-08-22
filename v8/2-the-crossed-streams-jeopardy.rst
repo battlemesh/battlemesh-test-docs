@@ -62,12 +62,7 @@ Measured RTT in classic graph:
 .. image:: ./data/results/001-20150808/4/rtt-normal-summary.svg
    :target: ../_images/rtt-normal-summary3.svg
 
-Measured Bitrate (from **client** to **server**) in ECDF graph:
-
-.. image:: ./data/results/001-20150808/4/bitrate-ecdf-summary.svg
-   :target: ../_images/bitrate-ecdf-summary1.svg
-
-Measured Bitrate (from **client** to **server**) in classic graph:
+Measured Bitrate (from **client** to **server**):
 
 .. image:: ./data/results/001-20150808/4/bitrate-normal-summary.svg
    :target: ../_images/bitrate-normal-summary1.svg
@@ -91,12 +86,7 @@ Measured RTT in classic graph:
 .. image:: ./data/results/002-20150808/4/rtt-normal-summary.svg
    :target: ../_images/rtt-normal-summary4.svg
 
-Measured Bitrate (from **client** to **server**) in ECDF graph:
-
-.. image:: ./data/results/002-20150808/4/bitrate-ecdf-summary.svg
-   :target: ../_images/bitrate-ecdf-summary2.svg
-
-Measured Bitrate (from **client** to **server**) in classic graph:
+Measured Bitrate (from **client** to **server**):
 
 .. image:: ./data/results/002-20150808/4/bitrate-normal-summary.svg
    :target: ../_images/bitrate-normal-summary2.svg
