@@ -11,7 +11,9 @@ Firmware
 Choosing to compile the firmware using openwrt trunk in the first days of the
 event was a mistake which delayed the testing phase.
 
-Not stating clearly which protocols are going to participate in the battle.
+Not stating clearly which protocols were going to participate in the battle
+caused misunderstandings and discussions which could have been avoided with
+more preparation.
 
 **Possible solutions**:
 
@@ -19,7 +21,7 @@ Not stating clearly which protocols are going to participate in the battle.
 * choose a specific revision at least one month in advance
 * prepare the firmware before the event
 * the protocols that want to participate in the battle have to state it clearly
-and have to take part during the test process
+  in advance and have to take part during the test process
 
 Configuration
 -------------
@@ -59,17 +61,16 @@ Volunteers
 **Problems**:
 
 There were quite some people that wanted to help out but it was not clear
-how they could help.
-
-Work cannot proceed in parallel if volunteers have to wait for somebody to
-explain them how they can contribute.
+how they could help because the tasks list contained only **firmware preparation**
+and **test management**, which were not enough to describe the entire test process
+to new comers so they were not able to understand how they could contribute.
 
 **Possible solutions**:
 
 * encourage people to participate to one or more of these following teams:
-    * **firmware team**: prepares the firmware with all the required agreed packages
     * **planning team**: plans realistic test scenarios, that is, according to the
       situation of each event (number volunteers, location and so on)
+    * **firmware team**: prepares the firmware with all the required agreed packages
     * **flashing team**: flashes devices in mass
     * **configuration team**: reviews config of the past year, checks if they can be reused
       as is or need to be modified, if modified gets them approved by the routing devs
@@ -85,3 +86,4 @@ explain them how they can contribute.
     * **routing team**: developers of all the routing protocol involved oversee the
       whole process, with particular attention to the test plan phase,
       configuration and test scripts
+* have people work in parallel on different indipendent tasks to speed up the process 
