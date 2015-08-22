@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Copyright (c) 2015 by Thijs van Veen <dicht@operamail.com>
+
 #expecting files in the following 2 formats
 # 1: sub-test data
 # [prefix]_[protocol]_[time]_[test].[subtest]
