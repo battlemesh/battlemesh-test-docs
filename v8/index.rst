@@ -13,4 +13,5 @@ Contents:
    /v8/2-the-crossed-streams-jeopardy
    /v8/3-blowing-up-the-network
    /v8/about-duplicated-packets
+   /v8/lessons-learned
    /v8/credits.rst
