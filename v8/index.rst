@@ -12,3 +12,4 @@ Contents:
    /v8/1-the-mesh-of-death-adversity
    /v8/2-the-crossed-streams-jeopardy
    /v8/3-blowing-up-the-network
+   /v8/credits.rst
