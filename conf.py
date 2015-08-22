@@ -252,7 +252,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'battlemeshtestdocumentation', u'Battlemesh Test Documentation Documentation',
+    (master_doc, 'battlemeshtestdocumentation', u'Battlemesh Test Documentation',
      [author], 1)
 ]
 
@@ -266,9 +266,10 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'BattlemeshTestDocumentation', u'Battlemesh Test Documentation Documentation',
-   author, 'BattlemeshTestDocumentation', 'One line description of project.',
-   'Miscellaneous'),
+  (master_doc, 'BattlemeshTestDocumentation', u'Battlemesh Test Documentation',
+   author, 'BattlemeshTestDocumentation',
+   'Documentation of the results obtained during Battlemesh events.',
+   'Networking'),
 ]
 
 # Documents to append as an appendix to all manuals.
