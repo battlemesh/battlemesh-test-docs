@@ -16,7 +16,7 @@ How to build the docs
 
 Clone this repo::
 
-    git@github.com:nemesisdesign/battlemesh-test-docs.git
+    git@github.com:battlemesh/battlemesh-test-docs.git
     cd battlemesh-test-docs
 
 Install sphinx::
