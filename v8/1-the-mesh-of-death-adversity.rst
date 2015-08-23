@@ -10,8 +10,9 @@ Our test network consists of 10 nodes which are almost fully connected.
 The most important facts of this setting are:
 
 * **node A** is connected to all the other nodes except **node K**
+* nodes from **B** to **J** are connected in **full mesh**
 * the shortest path from **node A** to **node K** consists of 3 hops
-* nodes from **B** to **J** are all not very far from each other
+* some links are not drawn to avoid unnecessary confusion
 * **node J** was named ``J`` instead of ``I`` to avoid possible confusion with number ``1``
 
 In this type of topology there are different ways the protocols can route the packets,
