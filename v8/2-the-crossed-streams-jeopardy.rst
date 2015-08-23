@@ -11,6 +11,14 @@
     Therefore this scenario inherits all the settings of the previous test
     but adds an additional stream of traffic to stress test the network.
 
+Topology
+--------
+
+Same as :doc:`The Mesh of Death Adversity Test <1-the-mesh-of-death-adversity>`
+with a small variation:
+
+* there is a second stream of iperf traffic from node ``D`` to ``H``
+
 Test
 ----
 
@@ -20,7 +28,8 @@ Test
     * `10mbit iperf streams <https://github.com/battlemesh/battlemesh-test-docs/blob/master/v8/testbed/scripts/run_test_1-4.sh#L92-L106>`__
     * `100mbit iperf streams <https://github.com/battlemesh/battlemesh-test-docs/blob/master/v8/testbed/scripts/run_test_4-5.sh#L43-L57>`__
 
-The tests mainly consisted in measuring ping *Round Trip Time* and throughput from **client** to **server** while generating two streams of traffic:
+The tests mainly consisted in measuring ping *Round Trip Time* and throughput
+from **client** to **server** while generating two streams of traffic:
 
 1. from the **client** connected to **A** to the **server** connected **K**
 2. from node **D** (*cross client*) to node **H** (*cross server*)
@@ -29,8 +38,10 @@ The measurements where collected from **A**.
 
 2 different tests were performed:
 
-* **10mbit iperf streams**: measure ping RTT while 2 simultaneous 10 Mbit/s UDP Iperf streams cross the network
-* **100mbit iperf streams**: measure ping RTT while 2 simultaneous 100 Mbit/s UDP Iperf streams cross the network
+* **10mbit iperf streams**: measure ping RTT while 2 simultaneous 10 Mbit/s UDP
+  Iperf streams cross the network
+* **100mbit iperf streams**: measure ping RTT while 2 simultaneous 100 Mbit/s
+  UDP Iperf streams cross the network
 
 .. note::
    * **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__.
@@ -42,12 +53,14 @@ Results
 Graphs and raw data are provided for each test.
 
 .. note::
-   The graphs were generated with the following command (requires the R programming language)::
+   The graphs were generated with the following command (requires the R
+   programming language)::
 
        R --vanilla --slave --args --out-type svg --separate-output --maxtime 300 --maxrtt 500 --width 6.4 --height 4 --palette "#FF0000 #005500 #0000FF #000000" results/ < generic.R
 
    the script `generic.R
-   <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/generic.R>`__ is available on github.
+   <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/generic.R>`__
+   is available on github.
 
 10mbit iperf streams
 ^^^^^^^^^^^^^^^^^^^^
@@ -74,7 +87,7 @@ Measured Bitrate (from **client** to **server**):
    is available on github.
 
 100mbit iperf streams
-^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
 
 Measured RTT in ECDF graph:
 
