@@ -116,9 +116,10 @@ Results
 Graphs and raw data are provided for each test.
 
 .. note::
-   The graphs were generated with the following command (requires the R programming language)::
+   The graphs were generated with the following command (requires the
+   `R programming language <https://www.r-project.org/>`__)::
 
-       R --vanilla --slave --args --out-type svg --separate-output --maxtime 300 --maxrtt 500 --width 6.4 --height 4 --palette "#FF0000 #005500 #0000FF #000000" results/ < generic.R
+       R --vanilla --slave --args --out-type svg --separate-output --maxtime 300 --maxrtt 500 --width 9 --height 5.96 --palette "#FF0000 #005500 #0000FF #000000" results/ < generic.R
 
    the script `generic.R
    <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/generic.R>`__ is available on github.
