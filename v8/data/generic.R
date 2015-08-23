@@ -26,6 +26,8 @@ exit_usage <- function() {
     q()
 }
 
+rotate <- function(x) { c(x[-1], x[1]) }
+
 get_data_ping <- function(csvFile) {
     csvData <- (read.table(csvFile, header=TRUE, sep="",
                            colClasses=c("numeric", "numeric", "numeric", "numeric"))
@@ -247,9 +249,9 @@ rescale <- function(dat) {
 draw_ecdf <- function(data1, plotdat, stack_graph) {
     dat <- data1$data
     name <- names(dat)[2]
-    point_type <- plotdat$point_type
-    line_type <- plotdat$line_type
-    color <- plotdat$color[1]
+    point_type <- data1$plotattr$point
+    line_type <- data1$plotattr$line
+    color <- data1$plotattr$color
     if(stack_graph)
         par(new = TRUE)
     tmpDat <- sort(dat[,name])
@@ -266,25 +268,20 @@ draw_ecdf <- function(data1, plotdat, stack_graph) {
     plotdat$legend_col   <- c(plotdat$legend_col, color)
     plotdat$legend_lty   <- c(plotdat$legend_lty, line_type)
     plotdat$legend_pch   <- c(plotdat$legend_pch, point_type)
-    point_type <- (point_type + 1) %% 25
-    line_type <- (line_type %% 6) + 1
     plotdat$y_label = expression(hat(F)[n](x))
     plotdat$x_label = paste(sep="", data1$type[2], " (", data1$unit[2], ")")
     if(!stack_graph) {
         draw_axis_and_legend(plotdat)
     }
-    plotdat$point_type <- point_type
-    plotdat$line_type <- line_type
-    plotdat$color <- c(plotdat$color[-1], plotdat$color[1])
     plotdat
 }
 
 draw_normal <- function(data1, plotdat, stack_graph) {
     dat <- data1$data
     name <- names(dat)[2]
-    point_type <- plotdat$point_type
-    line_type <- plotdat$line_type
-    color <- plotdat$color[1]
+    point_type <- data1$plotattr$point
+    line_type <- data1$plotattr$line
+    color <- data1$plotattr$color
     if(stack_graph)
         par(new = TRUE)
     tmpDat <- dat[,name]
@@ -303,22 +300,16 @@ draw_normal <- function(data1, plotdat, stack_graph) {
     plotdat$legend_col   <- c(plotdat$legend_col, color)
     plotdat$legend_lty   <- c(plotdat$legend_lty, line_type)
     plotdat$legend_pch   <- c(plotdat$legend_pch, point_type)
-    point_type <- (point_type + 1) %% 25
-    line_type <- (line_type %% 6) + 1
     plotdat$y_label = paste(sep="", data1$type[2], " (", data1$unit[2], ")")
     plotdat$x_label = paste(sep="", data1$type[1], " (", data1$unit[1], ")")
     if(!stack_graph) {
         draw_axis_and_legend(plotdat)
     }
-    plotdat$point_type <- point_type
-    plotdat$line_type <- line_type
-    plotdat$color <- c(plotdat$color[-1], plotdat$color[1])
     plotdat
 }
 
-reset_plotdat <- function(palette=flag_palette) {
+reset_plotdat <- function() {
     list(legend_names = c(), legend_col = c(), legend_pch = c(), legend_lty = c(),
-        point_type = 0, line_type = 1, color = palette,
         x_label = "", y_label = "")
 }
 
@@ -359,9 +350,24 @@ draw_graph <- function(csvFiles, filename="generic") {
     # normalize data
     data <- normalize(data, min_t0, tmax, max_throughput)
 
-    # choose the palette
+    if (flag_summary_only)
+        return(data)
+
+    # choose the palette, and line and point types.
     if (length(flag_palette) == 0) {
-        flag_palette <<- get_colors(curve_num)
+        palette <- get_colors(curve_num)
+    } else {
+        palette <- flag_palette
+    }
+    point_types <- 0:24
+    line_types <- 1:6
+    for (i in 1:length(data)) {
+        data[[i]]$plotattr$color <- palette[1]
+        palette <- rotate(palette)
+        data[[i]]$plotattr$point <- point_types[1]
+        point_types <- rotate(point_types)
+        data[[i]]$plotattr$line <- line_types[1]
+        line_types <- rotate(line_types)
     }
 
     # set output
@@ -453,15 +459,8 @@ draw_summary <- function(data, protonames, all_in_one = TRUE, mode="ecdf") {
 
     data <- normalize_summary(data)
 
-    if (length(flag_summary_palette) == 0) {
-        spalette <- get_colors(length(protonames))
-    } else {
-    	spalette <- flag_summary_palette
-    }
-
     open_device(paste(names(data[[1]]$data)[2], "-", mode, "-summary", sep=""), flag_output_type)
     plotdat <- new_page(force_separated = TRUE)
-    plotdat <- reset_plotdat(spalette)
     for (dat in data) {
         if (type != dat$type[2]) {
             if (all_in_one)
@@ -471,7 +470,7 @@ draw_summary <- function(data, protonames, all_in_one = TRUE, mode="ecdf") {
             unit <- dat$unit[2]
             open_device(paste(names(dat$data)[2], "-", mode, "-summary", sep=""), flag_output_type)
             plotdat <- new_page(force_separated = TRUE)
-            plotdat <- reset_plotdat(get_colors(length(protonames)))
+            plotdat <- reset_plotdat()
         }
         plotdat$legend_names <- c(plotdat$legend_names, dat$name)
         if (mode == "ecdf") {
@@ -508,6 +507,7 @@ flag_summary_palette <- NULL
 flag_legend <- "bottomright"
 flag_legend_dec <- c(0,0)
 flag_no_title <- FALSE
+flag_summary_only <- FALSE
 recurse <- TRUE
 
 i <- 1
@@ -540,6 +540,8 @@ while(i <= argc) {
             flag_grid <- TRUE
         } else if(argv[i] == "--separate-output") {
             flag_separate_output <- TRUE
+        } else if(argv[i] == "--summary-only") {
+            flag_summary_only <- TRUE
         } else {
             break   # quit loop
         }
@@ -569,13 +571,26 @@ enter <- function(pwd) {
     } else {
         alldata <- list()
         subdir <- basename(list.dirs(".", recursive=FALSE))
+        if (length(flag_summary_palette) == 0) {
+            spalette <- get_colors(length(subdir))
+        } else {
+            spalette <- flag_summary_palette
+        }
+        point_types <- 0:24
+        line_types <- 1:6
         for(d in subdir) {
             data <- enter(paste(pwd, d, sep="/"))
             if (is.null(data)) next
             setwd(pwd)
             for (i in 1:length(data)) {
                 data[[i]]$name <- d
+                data[[i]]$plotattr$color <- spalette[1]
+                data[[i]]$plotattr$point <- point_types[1]
+                data[[i]]$plotattr$line <- line_types[1]
             }
+            spalette <- rotate(spalette)
+            point_types <- rotate(point_types)
+            line_types <- rotate(line_types)
             alldata <- c(alldata, data)
         }
         if(length(alldata) > 0) {
