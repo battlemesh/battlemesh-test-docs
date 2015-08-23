@@ -1,4 +1,5 @@
-# Copyright (c) 2015 by Matthieu Boutier
+# Copyright (c) 2015 by Matthieu Boutier <boutier@univ-paris-diderot.fr>
+#                       University of Paris Diderot
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +33,7 @@ get_data_ping <- function(csvFile) {
     names(csvData) <- c("time", "rtt", "ttl", "seq")
     t0 <- csvData[1,"time"]
     csvData["time"] <- csvData[,"time"] - t0
-    csvData["ttl"] <- 64 - csvData[,"ttl"]
+    csvData["ttl"] <- 65 - csvData[,"ttl"]
 
     maxtime <- max(csvData$time, na.rm = TRUE)
 
@@ -45,7 +46,7 @@ get_data_ping <- function(csvFile) {
 
     dat2 <- list(data = csvData[c("time", "ttl")],
         t0 = t0,
-        type = c("Time", "Hop number: 64-TTL"),
+        type = c("Time", "Hop number: 65-TTL"),
         unit = c("s", "hops"),
         limit = c(maxtime, max(csvData$ttl, na.rm = TRUE)),
         summary = summary(csvData$ttl))
@@ -158,24 +159,41 @@ draw_legend <- function(lnames, col, lty, pch) {
     par(xpd = FALSE)
 }
 
+draw_axis_and_legend <- function(plotdat, title = NULL, legend = FALSE) {
+    draw_axis(2)
+    if (flag_grid) grid(nx=NULL, ny=NA)
+    mtext(plotdat$y_label, 2, line = 2, las = 0)
+    draw_axis(1)
+    if (flag_grid) grid(nx=NULL, ny=NA)
+    mtext(plotdat$x_label, 1, line = 2, las = 0)
+    if (!flag_no_title && !is.null(title))
+        mtext(title, side = 3, line = 0, cex = 1, las = 0)
+    if (legend)
+        draw_legend(plotdat$legend_names, plotdat$legend_col,
+                    plotdat$legend_lty, plotdat$legend_pch)
+}
+
 open_device <- function(filename, type) {
     filename <- sub(paste(".", type, "$", sep=""), "", filename)
     filename = paste(filename, type, sep=".");
     print(paste("drawing:", filename))
+    f_pixels <- function() {
+        do.call(type, list(file = filename, width = flag_width,
+                height = flag_height, units = "in", res = 300))
+    }
+    f_other <- function() {
+        do.call(type, list(file = filename, width = flag_width,
+                height = flag_height))
+    }
     if(Sys.info()[["sysname"]] == "Darwin") {
+        f_quartz <- function() {
+            quartz(file = filename, width = flag_width,
+                   height = flag_height, type = type, dpi=300)
+        }
         # On MacOS, the best is to use quartz.
-        quartz(file = filename, width = flag_width,
-               height = flag_height, type = type, dpi=300)
+        tryCatch(f_quartz(), error = function(e) { f_other() })
     } else {
         # Works on Linux:
-        f_pixels <- function() {
-            do.call(type, list(file = filename, width = flag_width,
-                    height = flag_height, units = "in", res = 300))
-        }
-        f_other <- function() {
-            do.call(type, list(file = filename, width = flag_width,
-                    height = flag_height))
-        }
         tryCatch(f_pixels(), error = function(e) {f_other()})
     }
 }
@@ -217,7 +235,7 @@ rescale <- function(dat) {
             dat$limit[i] = flag_maxrtt
         } else if (dat$type[i] == "Duplicates") {
             # not implemented
-        } else if (dat$type[i] == "Hop number: 64-TTL") {
+        } else if (dat$type[i] == "Hop number: 65-TTL") {
             # not implemented
         } else if (dat$type[i] == "Throughput") {
             # not implemented
@@ -250,19 +268,10 @@ draw_ecdf <- function(data1, plotdat, stack_graph) {
     plotdat$legend_pch   <- c(plotdat$legend_pch, point_type)
     point_type <- (point_type + 1) %% 25
     line_type <- (line_type %% 6) + 1
+    plotdat$y_label = expression(hat(F)[n](x))
+    plotdat$x_label = paste(sep="", data1$type[2], " (", data1$unit[2], ")")
     if(!stack_graph) {
-        draw_axis(2)
-        if (flag_grid) {
-            grid(nx=NULL, ny=NA)
-        }
-        mtext(expression(hat(F)[n](x)), 2, line = 2, las = 0)
-
-        draw_axis(1)
-        if (flag_grid) {
-            grid(nx=NULL, ny=NA)
-        }
-        mtext(paste(sep="", data1$type[2], " (", data1$unit[2], ")"),
-              1, line = 2, las = 0)
+        draw_axis_and_legend(plotdat)
     }
     plotdat$point_type <- point_type
     plotdat$line_type <- line_type
@@ -296,20 +305,10 @@ draw_normal <- function(data1, plotdat, stack_graph) {
     plotdat$legend_pch   <- c(plotdat$legend_pch, point_type)
     point_type <- (point_type + 1) %% 25
     line_type <- (line_type %% 6) + 1
+    plotdat$y_label = paste(sep="", data1$type[2], " (", data1$unit[2], ")")
+    plotdat$x_label = paste(sep="", data1$type[1], " (", data1$unit[1], ")")
     if(!stack_graph) {
-        draw_axis(2)
-        if (flag_grid) {
-            grid(nx=NULL, ny=NA)
-        }
-        mtext(paste(sep="", data1$type[2], " (", data1$unit[2], ")"),
-              2, line = 2, las = 0)
-
-        draw_axis(1)
-        if (flag_grid) {
-            grid(nx=NULL, ny=NA)
-        }
-        mtext(paste(sep="", data1$type[1], " (", data1$unit[1], ")"),
-              1, line = 2, las = 0)
+        draw_axis_and_legend(plotdat)
     }
     plotdat$point_type <- point_type
     plotdat$line_type <- line_type
@@ -319,7 +318,8 @@ draw_normal <- function(data1, plotdat, stack_graph) {
 
 reset_plotdat <- function(palette=flag_palette) {
     list(legend_names = c(), legend_col = c(), legend_pch = c(), legend_lty = c(),
-        point_type = 0, line_type = 1, color = palette)
+        point_type = 0, line_type = 1, color = palette,
+        x_label = "", y_label = "")
 }
 
 new_page <- function(force_separated=FALSE) {
@@ -419,6 +419,16 @@ draw_graph <- function(csvFiles, filename="generic") {
     data
 }
 
+normalize_summary <- function(data) {
+    types <- sapply(data, function(d){d$type[2]})
+    max <- sapply(data, function(d){max(d$limit[2],na.rm = TRUE)})
+    limits <- aggregate(max, FUN = max, by = list(type = types))
+    for (i in 1:length(data)) {
+        data[[i]]$limit[2] <- limits$x[limits$type == data[[i]]$type[2]]
+    }
+    data
+}
+
 `[.dataclass` <- function(x,i) {
     class(x) <- "list"
     structure(x[i], class="dataclass")
@@ -441,25 +451,21 @@ draw_summary <- function(data, protonames, all_in_one = TRUE, mode="ecdf") {
     type <- data[[1]]$type[2]
     unit <- data[[1]]$unit[2]
 
-    # ecdf summaries
+    data <- normalize_summary(data)
+
+    if (length(flag_summary_palette) == 0) {
+        spalette <- get_colors(length(protonames))
+    } else {
+    	spalette <- flag_summary_palette
+    }
+
     open_device(paste(names(data[[1]]$data)[2], "-", mode, "-summary", sep=""), flag_output_type)
     plotdat <- new_page(force_separated = TRUE)
-    plotdat <- reset_plotdat(get_colors(length(protonames)))
+    plotdat <- reset_plotdat(spalette)
     for (dat in data) {
         if (type != dat$type[2]) {
-            if (all_in_one) {
-                draw_axis(2)
-                if (flag_grid) grid(nx=NULL, ny=NA)
-                mtext(expression(hat(F)[n](x)), 2, line = 2, las = 0)
-                draw_axis(1)
-                if (flag_grid) grid(nx=NULL, ny=NA)
-                mtext(paste(sep="", type, " (", unit, ")"), 1, line = 2, las = 0)
-                mtext(type, side = 3, line = 0, cex = 1, las = 0)
-                draw_legend(plotdat$legend_names,
-                            plotdat$legend_col,
-                            plotdat$legend_lty,
-                            plotdat$legend_pch)
-            }
+            if (all_in_one)
+                draw_axis_and_legend(plotdat, title = type, legend = TRUE)
             dev.off()
             type <- dat$type[2]
             unit <- dat$unit[2]
@@ -476,15 +482,8 @@ draw_summary <- function(data, protonames, all_in_one = TRUE, mode="ecdf") {
         if (!all_in_one)
             mtext(dat$name, side = 3, line = 0, cex = 1, las = 0)
     }
-    draw_axis(2)
-    if (flag_grid) grid(nx=NULL, ny=NA)
-    mtext(expression(hat(F)[n](x)), 2, line = 2, las = 0)
-    draw_axis(1)
-    if (flag_grid) grid(nx=NULL, ny=NA)
-    mtext(paste(sep="", type, " (", unit, ")"), 1, line = 2, las = 0)
-    mtext(type, side = 3, line = 0, cex = 1, las = 0)
-    draw_legend(plotdat$legend_names, plotdat$legend_col,
-                plotdat$legend_lty, plotdat$legend_pch)
+    if (all_in_one)
+        draw_axis_and_legend(plotdat, title = type, legend = TRUE)
     dev.off()
 }
 
@@ -505,10 +504,11 @@ flag_output_type <- "pdf"
 flag_separate_output <- FALSE
 flag_grid <- FALSE
 flag_palette <- NULL
+flag_summary_palette <- NULL
 flag_legend <- "bottomright"
 flag_legend_dec <- c(0,0)
+flag_no_title <- FALSE
 recurse <- TRUE
-txt_title <- ""
 
 i <- 1
 while(i <= argc) {
@@ -526,14 +526,16 @@ while(i <= argc) {
         flag_filename <- paste(getwd(), sep="/", argv[i+1])
     } else if(argv[i] == "--out-type") {
         flag_output_type <- argv[i+1]
-    } else if(argv[i] == "--title") {
-        txt_title <- argv[i+1]
     } else if(argv[i] == "--palette") {
         # --palette "#FF000 #00FF00 ..."
         flag_palette <- strsplit(argv[i+1], " ")[[1]]
+    } else if(argv[i] == "--summary-palette") {
+        flag_summary_palette <- strsplit(argv[i+1], " ")[[1]]
     } else { # 1 argument cases
         if(argv[i] == "--no-recurse") {
             recurse <- FALSE
+        } else if(argv[i] == "--no-title") {
+            flag_no_title <- TRUE
         } else if(argv[i] == "--grid") {
             flag_grid <- TRUE
         } else if(argv[i] == "--separate-output") {
