@@ -3,6 +3,26 @@
 
 .. image:: ./images/1-the-mesh-of-death-adversity.svg
 
+Topology
+--------
+
+Our test network consists of 10 nodes which are almost fully connected.
+The most important facts of this setting are:
+
+* **node A** is connected to all the other nodes except **node K**
+* the shortest path from **node A** to **node K** consists of 3 hops
+* nodes from **B** to **J** are all not very far from each other
+* **node J** was named ``J`` instead of ``I`` to avoid possible confusion with number ``1``
+
+In this type of topology there are different ways the protocols can route the packets,
+yet it's compact enough to properly notice the wi-fi interference.
+
+.. note::
+   To avoid *node A* linking to *node K* we put ``A`` and ``K`` in different rooms
+   and we diminished their trasmission power.
+
+   Router from ``B`` to ``J`` were all put in a large hall.
+
 Scenario
 --------
 
@@ -38,22 +58,6 @@ Requirements
 - 10x Tp Link WDR4300 with OpenWRT
 - 2x laptops with real ethernet ports (no adapters)
 - 2x ethernet cables
-
-Topology
---------
-
-.. image:: ./images/1-the-mesh-of-death-adversity.svg
-
-Our test network consists of 10 nodes which are almost fully connected.
-
-In this type of topology there are different ways the protocols can route the packets,
-yet it's compact enough to properly notice the wi-fi interference.
-
-.. note::
-   To avoid *node A* linking to *node K* we put *A* and *K* in different rooms
-   and we diminished their trasmission power.
-
-   Router from B to J were all put in a large hall.
 
 Configuration
 -------------
