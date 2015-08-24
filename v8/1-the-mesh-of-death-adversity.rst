@@ -187,3 +187,5 @@ Measured Bitrate:
    `Raw data for this test
    <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/001-20150808/3>`__
    is available on github.
+
+Article written by Federico Capoano, Matthieu Boutier, Thijs van Veen.

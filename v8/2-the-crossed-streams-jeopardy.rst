@@ -109,3 +109,5 @@ Measured Bitrate (from **client** to **server**):
    `Raw data for this test
    <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/002-20150808/4>`__
    is available on github.
+
+Article written by Federico Capoano, Matthieu Boutier.

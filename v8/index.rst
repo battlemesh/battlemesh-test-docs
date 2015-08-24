@@ -15,3 +15,6 @@ Contents:
    /v8/about-duplicated-packets
    /v8/lessons-learned
    /v8/credits.rst
+   /v8/ecdf.rst
+
+Article written by Federico Capoano, Matthieu Boutier.
