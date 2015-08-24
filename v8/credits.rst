@@ -22,3 +22,5 @@ in producing and documenting the results of this edition.
 * Sven Eckelmann: debugging wifi driver bug
 * Thijs Van Veen: test scripts
 * Toke Høiland-Jørgensen: :doc:`Blowing up the network test <3-blowing-up-the-network>` (test, scripts and graphs)
+
+Article written by Federico Capoano.

@@ -13,3 +13,5 @@ During the battlemesh v8 we uncovered a wifi driver bug.
 
 .. image:: ./data/results/002-20150808/4/dup-normal-summary.svg
    :target: ../_images/dup-normal-summary3.svg
+
+Article written by Federico Capoano.

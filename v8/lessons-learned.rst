@@ -87,3 +87,5 @@ to new comers so they were not able to understand how they could contribute.
       whole process, with particular attention to the test plan phase,
       configuration and test scripts
 * have people work in parallel on different indipendent tasks to speed up the process 
+
+Article written by Federico Capoano.
