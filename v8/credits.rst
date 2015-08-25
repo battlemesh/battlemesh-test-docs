@@ -4,6 +4,50 @@ Credits
 Many thanks to all the contributors who actively participated
 in producing and documenting the results of this edition.
 
+Management and testbed setup
+----------------------------
+
+Management and test planning:
+
+* Amadeus Alfa
+* Juliusz Chroboczek
+
+Testbed setup and routers flashing:
+
+* Amadeus Alfa
+* Federico Capoano
+* Goran Mahovlić
+* Tomislava
+* Dario Stelitano
+* Riccardo Bloise
+
+Test and graph scripting
+------------------------
+
+* Henning Rogge (test scripts)
+* Thijs Van Veen (test scripts)
+* Matthieu Boutier (graph scripts)
+
+(:doc:`The mesh of death adversity <1-the-mesh-of-death-adversity>`,
+:doc:`The crossed streams jeopardy <2-the-crossed-streams-jeopardy>`)
+
+Flent tests
+-----------
+
+* Toke Høiland-Jørgensen
+
+(:doc:`Blowing up the network test <3-blowing-up-the-network>`)
+
+Web site and documentation
+--------------------------
+
+* Federico Capoano
+* Matthieu Boutier
+* Thijs Van Veen
+
+All contributions (with more details)
+-------------------------------------
+
 **...INCOMPLETE... should we list in alphabetical order?**
 
 * Amadeus Alfa: test management and overview
@@ -23,4 +67,4 @@ in producing and documenting the results of this edition.
 * Thijs Van Veen: test scripts
 * Toke Høiland-Jørgensen: :doc:`Blowing up the network test <3-blowing-up-the-network>` (test, scripts and graphs)
 
-Article written by Federico Capoano.
+Article written by Federico Capoano, Matthieu Boutier.
