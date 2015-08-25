@@ -141,16 +141,41 @@ Graphs and raw data are provided for each test.
 reboot
 ^^^^^^
 
-Measured RTT in ECDF graph:
+In the reboot experience, we let the network run stable for some time, and then
+suddently reboot all routers simultaneously.  The following graph show a quick
+overview of the whole experience.
 
-.. image:: ./data/results/001-20150808/1/rtt-ecdf-summary.svg
-   :target: ../_images/rtt-ecdf-summary.svg
+.. image:: ./images/1-reboot-rtt-normal.svg
+   :target: ./images/1-reboot-rtt-normal.svg
 
-Measured RTT in classic graph:
+What interests us in this experience is the small part after the reboot: the
+following graph represent the ECDF graph of the ping samples taken for 50s after
+the reboot.  The x-axis is scaled to show only packets than less than 50ms: we
+see that all protocols are choosing fast routes, since in all cases, the RTT of
+the packets are below 50ms.  In this particular example though, Babel, BMX7 and
+OLSRv1, with almost all packets being under 10ms, outperforms Batman-adv and
+OLSRv2, which "only" have 80% of the packets under 10ms.
 
-.. image:: ./data/results/001-20150808/1/rtt-normal-summary.svg
-   :target: ../_images/rtt-normal-summary.svg
+.. image:: ./images/1-reboot-rtt-ecdf-zoom.svg
+   :target: ./images/1-reboot-rtt-ecdf-zoom.svg
 
+R --vanilla --slave --args --out-type svg --separate-output --mintime 140 --maxtime 200 --maxrtt 50 --width 6.4 --height 4 --palette "#FF0000 #005500 #0000FF #000000" --summary-palette "#ff1a1a #4ebe2a #f96eec #26b1dd #fcb500" --summary-only results/001-20150808/1 < generic.R
+
+Zooming at the normal graphs around time 150 gives us other precious
+informations: we see when the routing protocols begins to forward packets, which
+should reflect the convergence time of each protocol.  Regarding this benchmark,
+we observe the following convergence time:
+
+===== ====== ==== ====== ======
+Babel OLSRv2 BMX7 OLSRv1 Batman
+151   155    159  163    182
++0    +4s    +8s  +12s   +23s
+===== ====== ==== ====== ======
+
+.. image:: ./images/1-reboot-rtt-normal-zoom.svg
+   :target: ./images/1-reboot-rtt-normal-zoom.svg
+
+R --vanilla --slave --args --out-type svg --separate-output --mintime 140 --maxtime 200 --maxrtt 20 --width 6.4 --height 4 --palette "#FF0000 #005500 #0000FF #000000" --summary-palette "#ff1a1a #4ebe2a #f96eec #26b1dd #fcb500" --summary-only results/001-20150808/1 < generic.R
 
 .. note::
    `Raw data for this test
