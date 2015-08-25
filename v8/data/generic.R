@@ -43,14 +43,16 @@ get_data_ping <- function(csvFile) {
         t0 = t0,
         type = c("Time", "RTT"),
         unit = c("s", "ms"),
-        limit = c(maxtime, max(csvData$rtt, na.rm = TRUE)),
+        limitmin = c(0, 0),
+        limitmax = c(maxtime, max(csvData$rtt, na.rm = TRUE)),
         summary = summary(csvData$rtt))
 
     dat2 <- list(data = csvData[c("time", "ttl")],
         t0 = t0,
         type = c("Time", "Hop number: 65-TTL"),
         unit = c("s", "hops"),
-        limit = c(maxtime, max(csvData$ttl, na.rm = TRUE)),
+        limitmin = c(0, 0),
+        limitmax = c(maxtime, max(csvData$ttl, na.rm = TRUE)),
         summary = summary(csvData$ttl))
 
     # extract packet duplication
@@ -62,7 +64,8 @@ get_data_ping <- function(csvFile) {
         t0 = t0,
         type = c("Time", "Duplicates"),
         unit = c("s", "count"),
-        limit = c(maxtime, max(tmp$dup, na.rm = TRUE)),
+        limitmin = c(0, 0),
+        limitmax = c(maxtime, max(tmp$dup, na.rm = TRUE)),
         summary = summary(tmp$dup))
     list(dat1, dat2, dat3)
 }
@@ -84,7 +87,8 @@ get_data_iperf <- function(csvFile) {
         t0 = t0,
         type = c("Time", "Throughput"),
         unit = c("s", "bit/s"),
-        limit = c(max(csvData$time, na.rm = TRUE),
+        limitmin = c(0, 0),
+        limitmax = c(max(csvData$time, na.rm = TRUE),
             max(csvData$bitrate, na.rm = TRUE)),
             summary = summary(csvData$bitrate))
     list(dat1)
@@ -220,7 +224,8 @@ normalize <- function(data, min_t0, tmax, max_throughput) {
         data[[i]]$tmax <- tmax
         if (data[[i]]$unit[2] == "bit/s") {
             data[[i]]$data$bitrate = data[[i]]$data$bitrate / factor
-            data[[i]]$limit[2] = data[[i]]$limit[2] / factor
+            data[[i]]$limitmin[2] = data[[i]]$limitmin[2] / factor
+            data[[i]]$limitmax[2] = data[[i]]$limitmax[2] / factor
             data[[i]]$unit[2] = unit
         }
         i <- i + 1
@@ -230,11 +235,13 @@ normalize <- function(data, min_t0, tmax, max_throughput) {
 
 rescale <- function(dat) {
     for (i in 1:length(dat$type)) {
-        if (dat$type[i] == "Time" && flag_maxtime < Inf) {
-            dat$limit[i] = flag_maxtime
-            dat$data <- dat$data[dat$data$time <= flag_maxtime,]
+        if (dat$type[i] == "Time" && (flag_mintime > 0 || flag_maxtime < Inf)) {
+            dat$limitmin[i] = flag_mintime
+            dat$limitmax[i] = flag_maxtime
+            dat$data <- dat$data[flag_mintime <= dat$data$time &
+                                 dat$data$time <= flag_maxtime,]
         } else if (dat$type[i] == "RTT" && flag_maxrtt < Inf) {
-            dat$limit[i] = flag_maxrtt
+            dat$limitmax[i] = flag_maxrtt
         } else if (dat$type[i] == "Duplicates") {
             # not implemented
         } else if (dat$type[i] == "Hop number: 65-TTL") {
@@ -256,7 +263,8 @@ draw_ecdf <- function(data1, plotdat, stack_graph) {
         par(new = TRUE)
     tmpDat <- sort(dat[,name])
     n <- length(tmpDat)
-    xmax = data1$limit[2]
+    xmin = data1$limitmin[2]
+    xmax = data1$limitmax[2]
     if (xmax == 0) { xmax = 1 }
     plot(tmpDat,
          (1:n) / n,
@@ -286,13 +294,15 @@ draw_normal <- function(data1, plotdat, stack_graph) {
         par(new = TRUE)
     tmpDat <- dat[,name]
     n <- length(tmpDat)
-    xmax = data1$limit[1]
+    xmin = data1$limitmin[1]
+    xmax = data1$limitmax[1]
     if (xmax == 0) { xmax = 1 }
-    ymax = data1$limit[2]
+    xmin = data1$limitmin[1]
+    ymax = data1$limitmax[2]
     if (ymax == 0) { ymax = 1 }
     plot(dat$time,
          tmpDat,
-         xlim = c(0, xmax), ylim = c(0, ymax),
+         xlim = c(xmin, xmax), ylim = c(0, ymax),
          xlab = "", ylab = "",
          pch = point_type, col = color, cex = .5,
          bty = "o", type = "s",
@@ -427,10 +437,13 @@ draw_graph <- function(csvFiles, filename="generic") {
 
 normalize_summary <- function(data) {
     types <- sapply(data, function(d){d$type[2]})
-    max <- sapply(data, function(d){max(d$limit[2],na.rm = TRUE)})
-    limits <- aggregate(max, FUN = max, by = list(type = types))
+    max <- sapply(data, function(d){max(d$limitmax[2],na.rm = TRUE)})
+    limitmax <- aggregate(max, FUN = max, by = list(type = types))
+    min <- sapply(data, function(d){min(d$limitmin[2],na.rm = TRUE)})
+    limitmin <- aggregate(min, FUN = min, by = list(type = types))
     for (i in 1:length(data)) {
-        data[[i]]$limit[2] <- limits$x[limits$type == data[[i]]$type[2]]
+        data[[i]]$limitmax[2] <- limitmax$x[limitmax$type == data[[i]]$type[2]]
+        data[[i]]$limitmin[2] <- limitmin$x[limitmin$type == data[[i]]$type[2]]
     }
     data
 }
@@ -493,6 +506,7 @@ if(argc <= 0)
     exit_usage()
 
 # parse options
+flag_mintime <- 0
 flag_maxtime <- Inf
 flag_maxrtt <- Inf
 flag_lang <- "en"
@@ -512,7 +526,9 @@ recurse <- TRUE
 
 i <- 1
 while(i <= argc) {
-    if(argv[i] == "--maxtime") {
+    if(argv[i] == "--mintime") {
+        flag_mintime <- as.numeric(argv[i+1])
+    } else if(argv[i] == "--maxtime") {
         flag_maxtime <- as.numeric(argv[i+1])
     } else if(argv[i] == "--maxrtt") {
         flag_maxrtt <- as.numeric(argv[i+1])
