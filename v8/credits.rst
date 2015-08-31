@@ -48,7 +48,7 @@ Web site and documentation
 All contributions (with more details)
 -------------------------------------
 
-**...INCOMPLETE... should we list in alphabetical order?**
+**may be incomplete, feel free to send pull requests with additional names.**
 
 * Amadeus Alfa: test management and overview
 * Antonio Quartulli: configuration and debugging
