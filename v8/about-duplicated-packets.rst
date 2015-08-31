@@ -1,9 +1,10 @@
 About duplicated packets
 ========================
 
-During the battlemesh v8 we uncovered a wifi driver bug.
+During the battlemesh v8 we uncovered a wifi driver bug which
+caused duplicated packets in certain cases.
 
-**... TODO ...**
+Here's a few graphs that show the duplicated packets that were captured:
 
 .. image:: ./data/results/001-20150808/1/dup-normal-summary.svg
    :target: ../_images/dup-normal-summary.svg
