@@ -114,7 +114,8 @@ client.
 * **ping + iperf**: measure ping RTT and throughput of a 10 Mbit/s UDP Iperf stream running simultaneously
 
 .. note::
-   **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__
+   * **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__
+   * **ECDF** stands for :doc:`Empirical Cumulative Distribution Function <ecdf>`
 
 Results
 -------
@@ -132,12 +133,6 @@ Graphs and raw data are provided for each test.
      the script `generic.R
      <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/generic.R>`__ is available on github.
 
-   * **ECDF** stands for `Empirical Cumulative Distribution Function
-       <https://en.wikipedia.org/wiki/Empirical_distribution_function>`__.  If
-       you are not habituated to read this kind of graphs, have a look to our
-       :doc:`quick "how to" <ecdf>`.
-
-
 reboot
 ^^^^^^
 
@@ -145,19 +140,23 @@ In the reboot experience, we let the network run stable for some time, and then
 suddently reboot all routers simultaneously.  The following graph show a quick
 overview of the whole experience.
 
-.. image:: ./images/1-reboot-rtt-normal.svg
-   :target: ./images/1-reboot-rtt-normal.svg
+(**How to read:** lower is better)
+
+.. image:: ./data/results/001-20150808/1/reboot-rtt-normal-summary.svg
+   :target: ../_images/reboot-rtt-normal-summary.svg
 
 What interests us in this experience is the small part after the reboot: the
-following graph represent the ECDF graph of the ping samples taken for 50s after
+following graph represent the :doc:`ECDF <ecdf>` graph of the ping samples taken for 50s after
 the reboot.  The x-axis is scaled to show only packets than less than 50ms: we
 see that all protocols are choosing fast routes, since in all cases, the RTT of
 the packets are below 50ms.  In this particular example though, Babel, BMX7 and
 OLSRv1, with almost all packets being under 10ms, outperforms Batman-adv and
 OLSRv2, which "only" have 80% of the packets under 10ms.
 
-.. image:: ./images/1-reboot-rtt-ecdf-zoom.svg
-   :target: ./images/1-reboot-rtt-ecdf-zoom.svg
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
+
+.. image:: ./data/results/001-20150808/1/reboot-rtt-ecdf-zoom.svg
+   :target: ../_images/reboot-rtt-ecdf-zoom.svg
 
 ::
 
@@ -174,8 +173,10 @@ Babel OLSRv2 BMX7 OLSRv1 Batman
 +0    +4s    +8s  +12s   +23s
 ===== ====== ==== ====== ======
 
-.. image:: ./images/1-reboot-rtt-normal-zoom.svg
-   :target: ./images/1-reboot-rtt-normal-zoom.svg
+(**How to read:** lower is better)
+
+.. image:: ./data/results/001-20150808/1/reboot-rtt-normal-zoom.svg
+   :target: ./images/reboot-rtt-normal-zoom.svg
 
 ::
 
@@ -189,37 +190,45 @@ Babel OLSRv2 BMX7 OLSRv1 Batman
 ping
 ^^^^
 
-Measured RTT in ECDF graph:
+Measured RTT in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
 .. image:: ./data/results/001-20150808/2/rtt-ecdf-summary.svg
    :target: ../_images/rtt-ecdf-summary1.svg
 
 Measured RTT in classic graph:
 
+(**How to read:** lower is better)
+
 .. image:: ./data/results/001-20150808/2/rtt-normal-summary.svg
    :target: ../_images/rtt-normal-summary1.svg
-
 
 .. note::
    `Raw data for this test
    <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/001-20150808/2>`__
    is available on github.
 
-
 ping + iperf
 ^^^^^^^^^^^^
 
-Measured RTT in ECDF graph:
+Measured RTT in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
 .. image:: ./data/results/001-20150808/3/rtt-ecdf-summary.svg
    :target: ../_images/rtt-ecdf-summary2.svg
 
 Measured RTT in classic graph:
 
+(**How to read:** lower is better)
+
 .. image:: ./data/results/001-20150808/3/rtt-normal-summary.svg
    :target: ../_images/rtt-normal-summary2.svg
 
 Measured Bitrate:
+
+(**How to read:** higher is better)
 
 .. image:: ./data/results/001-20150808/3/bitrate-normal-summary.svg
    :target: ../_images/bitrate-normal-summary.svg

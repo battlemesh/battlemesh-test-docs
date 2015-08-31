@@ -44,8 +44,8 @@ The measurements where collected from **A**.
   UDP Iperf streams cross the network
 
 .. note::
-   * **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__.
-   * **ECDF** stands for `Empirical Cumulative Distribution Function <https://en.wikipedia.org/wiki/Empirical_distribution_function>`__.
+   * **RTT** stands for `Round Trip Time <https://en.wikipedia.org/wiki/Round-trip_delay_time>`__
+   * **ECDF** stands for :doc:`Empirical Cumulative Distribution Function <ecdf>`
 
 Results
 -------
@@ -65,21 +65,26 @@ Graphs and raw data are provided for each test.
 10mbit iperf streams
 ^^^^^^^^^^^^^^^^^^^^
 
-Measured RTT in ECDF graph:
+Measured RTT in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
 .. image:: ./data/results/001-20150808/4/rtt-ecdf-summary.svg
    :target: ../_images/rtt-ecdf-summary3.svg
 
 Measured RTT in classic graph:
 
+(**How to read:** lower is better)
+
 .. image:: ./data/results/001-20150808/4/rtt-normal-summary.svg
    :target: ../_images/rtt-normal-summary3.svg
 
 Measured Bitrate (from **client** to **server**):
 
+(**How to read:** higher is better)
+
 .. image:: ./data/results/001-20150808/4/bitrate-normal-summary.svg
    :target: ../_images/bitrate-normal-summary1.svg
-
 
 .. note::
    `Raw data for this test
@@ -89,17 +94,23 @@ Measured Bitrate (from **client** to **server**):
 100mbit iperf streams
 ^^^^^^^^^^^^^^^^^^^^^
 
-Measured RTT in ECDF graph:
+Measured RTT in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
 .. image:: ./data/results/002-20150808/4/rtt-ecdf-summary.svg
    :target: ../_images/rtt-ecdf-summary4.svg
 
 Measured RTT in classic graph:
 
+(**How to read:** lower is better)
+
 .. image:: ./data/results/002-20150808/4/rtt-normal-summary.svg
    :target: ../_images/rtt-normal-summary4.svg
 
 Measured Bitrate (from **client** to **server**):
+
+(**How to read:** higher is better)
 
 .. image:: ./data/results/002-20150808/4/bitrate-normal-summary.svg
    :target: ../_images/bitrate-normal-summary2.svg
