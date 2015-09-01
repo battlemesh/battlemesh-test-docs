@@ -162,8 +162,8 @@ OLSRv2, which "only" have 80% of the packets under 10ms.
 
    R --vanilla --slave --args --out-type svg --separate-output --mintime 140 --maxtime 200 --maxrtt 50 --width 6.4 --height 4 --palette "#FF0000 #005500 #0000FF #000000" --summary-palette "#ff1a1a #4ebe2a #f96eec #26b1dd #fcb500" --summary-only results/001-20150808/1 < generic.R
 
-Zooming at the normal graphs around time 150 gives us other precious
-informations: we see when the routing protocols begins to forward packets, which
+Zooming at the normal graphs around time 150 gives us another precious
+informations: we see when the routing protocols begin to forward packets, which
 should reflect the convergence time of each protocol.  Regarding this benchmark,
 we observe the following convergence time:
 
@@ -186,6 +186,14 @@ Babel OLSRv2 BMX7 OLSRv1 Batman
    `Raw data for this test
    <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/001-20150808/1>`__
    is available on github.
+
+.. warning:
+
+   The time convergence is the one of only a single test.  Even if it is
+   intersting, we cannot rely on it to say that these values "are" the actual
+   convergence time values.  For the next battlemesh, we should run more of
+   these experiments.
+
 
 ping
 ^^^^
