@@ -28,9 +28,9 @@ We ran five different tests on the test setup:
 
 * Realtime Response Under Load (RRUL) test
 * Realtime Response Under Load Best Effort (RRUL_BE) test
-* 8-stream download test, designed to mimic the dslreports speedtest
-* TCP upload test
 * TCP download test
+* TCP upload test
+* 8-streams download test, designed to mimic the `dslreports <http://www.dslreports.com/>`__ speedtest
 
 Realtime Response Under Load (RRUL) tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -46,12 +46,6 @@ Two variants of the test were performed:
   diffserv markings matching the mapping into hardware queues in the WiFi stack
 * best-effort only (called **RRUL_BE**) in which no diffserv marking is employed
 
-8-stream download test
-^^^^^^^^^^^^^^^^^^^^^^
-
-The **8-stream** download test runs eight simultaneous download streams while also
-measuring latency.
-
 TCP traffic tests
 ^^^^^^^^^^^^^^^^^
 
@@ -60,8 +54,16 @@ simultaneous latency measurement.
 
 Two different tests were performed:
 
-* TCP upload
 * TCP download
+* TCP upload
+
+8-streams download test
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The **8-stream** download test runs eight simultaneous download streams while also
+measuring latency.
+
+This test is designed to mimic the `dslreports <http://www.dslreports.com/>`__ speedtest.
 
 Results
 -------
@@ -72,17 +74,21 @@ Graphs are provided for each test.
 is available on github.
 
 .. note::
-   **TODO**: add notes on how to generate the graphs.
+   graphs were generated with `Flent (FLExible Network Tester) <https://flent.org/>`__
+   from the `raw data <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/002-20150808/5>`__
+   collected in flent data files.
 
 Realtime Response Under Load (RRUL)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ICMP latency in ECDF graph:
+ICMP latency in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
 .. image:: ./data/results/002-20150808/5/rrul-cdf.svg
    :target: ../_images/rrul-cdf.svg
 
-ICMP latency in box graph:
+Download bandwidth, upload bandwidth and ICMP latency in box graph:
 
 .. image:: ./data/results/002-20150808/5/rrul-box.svg
   :target: ../_images/rrul-box.svg
@@ -90,29 +96,76 @@ ICMP latency in box graph:
 Realtime Response Under Load Best Effort (RRUL_BE)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ICMP latency in ECDF graph:
+ICMP latency in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
 .. image:: ./data/results/002-20150808/5/rrul_be-cdf.svg
   :target: ../_images/rrul_be-cdf.svg
 
-ICMP latency in box graph:
+Download bandwidth, upload bandwidth and ICMP latency in box graph:
 
 .. image:: ./data/results/002-20150808/5/rrul_be-box.svg
   :target: ../_images/rrul_be-box.svg
 
-8-stream download test
-^^^^^^^^^^^^^^^^^^^^^^
+TCP download
+^^^^^^^^^^^^
 
-... **TODO** ...
+Ping latency in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
+
+.. image:: ./data/results/002-20150808/5/tcp-download-cdf.svg
+  :target: ../_images/tcp-download-cdf.svg
+
+Download bandwidth and ping latency in box graph:
+
+.. image:: ./data/results/002-20150808/5/tcp-download-box.svg
+  :target: ../_images/tcp-download-box.svg
+
+Download bandwidth and ping latency in classic graph:
+
+  .. image:: ./data/results/002-20150808/5/tcp-download-bandwidth.svg
+    :target: ../_images/tcp-download-bandwidth.svg
 
 TCP upload
 ^^^^^^^^^^
 
-... **TODO** ...
+Ping latency in :doc:`ECDF <ecdf>` graph:
 
-TCP download
-^^^^^^^^^^^^
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
-... **TODO** ...
+.. image:: ./data/results/002-20150808/5/tcp-upload-cdf.svg
+  :target: ../_images/tcp-upload-cdf.svg
 
-Article written by Federico Capoano.
+Upload bandwidth and ping latency in box graph:
+
+.. image:: ./data/results/002-20150808/5/tcp-upload-box.svg
+  :target: ../_images/tcp-upload-box.svg
+
+Upload bandwidth and ping latency in classic graph:
+
+  .. image:: ./data/results/002-20150808/5/tcp-upload-bandwidth.svg
+    :target: ../_images/tcp-upload-bandwidth.svg
+
+8-streams download test
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Ping latency in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
+
+.. image:: ./data/results/002-20150808/5/8-streams-cdf.svg
+  :target: ../_images/8-streams-cdf.svg
+
+8 downloads bandwidth and ping latency in box graph:
+
+.. image:: ./data/results/002-20150808/5/8-streams-box.svg
+  :target: ../_images/8-streams-box.svg
+
+8 downloads bandwidth and ping latency in classic graph:
+
+  .. image:: ./data/results/002-20150808/5/8-streams-bandwidth.svg
+    :target: ../_images/8-streams-bandwidth.svg
+
+Article written by Toke Høiland-Jørgensen, Federico Capoano.
