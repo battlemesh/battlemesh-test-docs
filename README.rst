@@ -9,7 +9,7 @@ Currently work in progress, contributions are very welcome.
 
 **The documentation is published at:**
 
-http://battlemesh-test-docs.readthedocs.org/
+http://docs.battlemesh.org/
 
 How to build the docs
 ---------------------
