@@ -123,10 +123,6 @@ Download bandwidth and ping latency in box graph:
 .. image:: ./data/results/002-20150808/5/tcp-download-box.svg
   :target: ../_images/tcp-download-box.svg
 
-Download bandwidth and ping latency in classic graph:
-
-  .. image:: ./data/results/002-20150808/5/tcp-download-bandwidth.svg
-    :target: ../_images/tcp-download-bandwidth.svg
 
 TCP upload
 ^^^^^^^^^^
@@ -143,10 +139,6 @@ Upload bandwidth and ping latency in box graph:
 .. image:: ./data/results/002-20150808/5/tcp-upload-box.svg
   :target: ../_images/tcp-upload-box.svg
 
-Upload bandwidth and ping latency in classic graph:
-
-  .. image:: ./data/results/002-20150808/5/tcp-upload-bandwidth.svg
-    :target: ../_images/tcp-upload-bandwidth.svg
 
 8-streams download test
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -162,10 +154,5 @@ Ping latency in :doc:`ECDF <ecdf>` graph:
 
 .. image:: ./data/results/002-20150808/5/8-streams-box.svg
   :target: ../_images/8-streams-box.svg
-
-8 downloads bandwidth and ping latency in classic graph:
-
-  .. image:: ./data/results/002-20150808/5/8-streams-bandwidth.svg
-    :target: ../_images/8-streams-bandwidth.svg
 
 Article written by Toke Høiland-Jørgensen, Federico Capoano.
