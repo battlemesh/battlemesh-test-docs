@@ -9,7 +9,7 @@
     <1-the-mesh-of-death-adversity>` because we were running out of time.
 
     Therefore this scenario inherits all the settings of the previous test
-    but adds parallel streams of traffic from **A** to **K** in order to
+    but adds parallel streams of traffic between **A** and **K** in order to
     deliberately cause disruption in the network.
 
 Test
@@ -30,7 +30,15 @@ We ran five different tests on the test setup:
 * Realtime Response Under Load Best Effort (RRUL_BE) test
 * TCP download test
 * TCP upload test
-* 8-streams download test, designed to mimic the `dslreports <http://www.dslreports.com/>`__ speedtest
+* 8-streams download test, designed to mimic the `dslreports speedtest <http://www.dslreports.com/speedtest>`__
+
+The point of this test series is to see what happens when the network is loaded
+to capacity (and beyond). Hence the "Blowing up the network" title of this test
+series. Since we only did a single test run, drawing conclusions from
+comparisons is not possible; but the tests can give an indication of the kind of
+behaviour that occurs at high load and point out areas for further
+investigation. And more rigorous testing with, above all, more repetitions can
+be performed to actually draw conclusions.
 
 Realtime Response Under Load (RRUL) tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -45,6 +53,32 @@ Two variants of the test were performed:
 * the straight **RRUL** test, which marks each of the four TCP streams with different
   diffserv markings matching the mapping into hardware queues in the WiFi stack
 * best-effort only (called **RRUL_BE**) in which no diffserv marking is employed
+
+A timeseries graph of the behaviour of the RRUL test looks like this:
+
+.. image:: ./data/results/002-20150808/5/rrul-timeseries.svg
+  :target: ../_images/rrul-timeseries.svg
+
+The TCP streams start up five seconds after the ping measurements start, which
+is the flat part of the bottom-most graph. Then, after the TCP flows start, the
+latency goes up significantly, peaking at several seconds of latency and quite a
+bit of packet loss (seen as gaps in the graph). The throughput figures are
+likewise erratic and throughput is highly asymmetric. Finally, the UDP latency
+measurement flows are lost entirely; this happens because Netperf stops the
+measurement flows when encountering packet loss.
+
+The name of the data set the above graph came from is deliberately omitted. The
+point here is not to beat up on a particular protocol, but to show the general
+pattern of failure experienced. As noted above, one should be wary comparing the
+different protocols from this data set, since there was only one test run.
+Instead, consider this an indication that they all break down, and that further
+investigation (and fixes!) is needed.
+
+Aggregate results from all five protocols is available below, along with a link
+to the dataset which can be explored in further detail with the Flent tool,
+which can also run the tests for those wishing to explore the behaviour of their
+own network.
+
 
 TCP traffic tests
 ^^^^^^^^^^^^^^^^^
@@ -63,7 +97,7 @@ Two different tests were performed:
 The **8-stream** download test runs eight simultaneous download streams while also
 measuring latency.
 
-This test is designed to mimic the `dslreports <http://www.dslreports.com/speedtest>`__ speedtest.
+This test is designed to mimic the `dslreports speedtest <http://www.dslreports.com/speedtest>`__.
 
 Results
 -------
