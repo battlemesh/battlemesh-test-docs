@@ -21,8 +21,8 @@ Test
     <https://github.com/battlemesh/battlemesh-test-docs/blob/master/v8/testbed/scripts/flent-tests.sh>`__
     is available on github.
 
-The tests mainly consisted in generating a high amount of traffic from
-**client** to **server** while measuring network performance.
+The tests mainly consisted in generating a high amount of traffic between
+**client** and **server** while measuring network performance.
 
 We ran five different tests on the test setup:
 
@@ -63,7 +63,7 @@ Two different tests were performed:
 The **8-stream** download test runs eight simultaneous download streams while also
 measuring latency.
 
-This test is designed to mimic the `dslreports <http://www.dslreports.com/>`__ speedtest.
+This test is designed to mimic the `dslreports <http://www.dslreports.com/speedtest>`__ speedtest.
 
 Results
 -------
@@ -74,7 +74,7 @@ Graphs are provided for each test.
 is available on github.
 
 .. note::
-   graphs were generated with `Flent (FLExible Network Tester) <https://flent.org/>`__
+   The graphs were generated with `Flent (FLExible Network Tester) <https://flent.org/>`__
    from the `raw data <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/002-20150808/5>`__
    collected in flent data files.
 
