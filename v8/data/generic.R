@@ -179,9 +179,13 @@ draw_axis_and_legend <- function(plotdat, title = NULL, legend = FALSE) {
                     plotdat$legend_lty, plotdat$legend_pch)
 }
 
-open_device <- function(filename, type) {
+open_device <- function(filename, filenum = 0, type = flag_output_type) {
+    filedat <- list(filename = filename, filenum = filenum + 1, type = type,
+                    graph_per_page = 0, num_graph = 0, force_separated = FALSE)
     filename <- sub(paste(".", type, "$", sep=""), "", filename)
-    filename = paste(filename, type, sep=".");
+    if (filenum != 0)
+        filename <- paste(filename, "-", filenum, sep="")
+    filename <- paste(filename, type, sep=".")
     print(paste("drawing:", filename))
     f_pixels <- function() {
         do.call(type, list(file = filename, width = flag_width,
@@ -202,6 +206,12 @@ open_device <- function(filename, type) {
         # Works on Linux:
         tryCatch(f_pixels(), error = function(e) {f_other()})
     }
+    filedat
+}
+
+reopen_device <- function(filedat) {
+    dev.off()
+    open_device(filedat$filename, filedat$filenum, filedat$type)
 }
 
 normalize <- function(data, min_t0, tmax, max_throughput) {
@@ -290,8 +300,9 @@ draw_normal <- function(data1, plotdat, stack_graph) {
     point_type <- data1$plotattr$point
     line_type <- data1$plotattr$line
     color <- data1$plotattr$color
-    if(stack_graph)
+    if(stack_graph) {
         par(new = TRUE)
+    }
     tmpDat <- dat[,name]
     n <- length(tmpDat)
     xmin = data1$limitmin[1]
@@ -320,19 +331,40 @@ draw_normal <- function(data1, plotdat, stack_graph) {
 
 reset_plotdat <- function() {
     list(legend_names = c(), legend_col = c(), legend_pch = c(), legend_lty = c(),
-        x_label = "", y_label = "")
+        x_label = "", y_label = "", filename = flag_filename, num_graph = 0)
 }
 
-new_page <- function(force_separated=FALSE) {
+new_page <- function(filedat, force_separated=FALSE) {
+    force_separated <- force_separated || filedat$force_separated;
+    if (filedat$num_graph > 0) {
+        if (filedat$type != "pdf") {
+            filedat <- reopen_device(filedat)
+        }
+    }
+
     if (force_separated || flag_separate_output) {
         par(mfrow = c(1, 1), mar = c(3,4,1,1) + 0.1, bg = "white")
+        filedat$graph_per_page <- 1
     } else {
         par(mfrow = c(2, 2), mar = c(3,4,1,1) + 0.1, bg = "white")
+        filedat$graph_per_page <- 4
     }
     plot(0, type="n", xlab="", ylab="", main="", axes = FALSE)
     par(new = TRUE)
 
-    reset_plotdat()
+    filedat$num_graph <- 0
+    filedat$force_separated <- force_separated
+    filedat
+    # reset_plotdat()
+}
+
+new_graph <- function(filedat) {
+    if (filedat$num_graph > 0 &&
+        (filedat$num_graph %% filedat$graph_per_page) == 0) {
+        filedat <- new_page(filedat)
+    }
+    filedat$num_graph <- filedat$num_graph + 1
+    filedat
 }
 
 draw_graph <- function(csvFiles, filename="generic") {
@@ -381,18 +413,21 @@ draw_graph <- function(csvFiles, filename="generic") {
     }
 
     # set output
-    open_device(filename, flag_output_type)
+    filedat <- open_device(filename)
 
     # Draw ECDF curves
-    plotdat <- new_page()
+    filedat <- new_page(filedat)
+    plotdat <- reset_plotdat()
 
     # Draw single plots
     for (i in 1:length(data)) {
+        filedat <- new_graph(filedat)
         plotdat <- draw_ecdf(data[[i]], plotdat, FALSE)
     }
 
     plotdat <- reset_plotdat()
     # Draw all together
+    filedat <- new_graph(filedat)
     plot(0, type="n", xlab="", ylab="", main="", axes = FALSE) # create empty graph.
     for (i in 1:length(data)) {
         plotdat <- draw_ecdf(data[[i]], plotdat, TRUE)
@@ -406,15 +441,18 @@ draw_graph <- function(csvFiles, filename="generic") {
     mtext("All together (no scale)", 1, line = 1, las = 0)
 
     # Draw normal curves
-    plotdat <- new_page()
+    filedat <- new_page(filedat)
+    plotdat <- reset_plotdat()
 
     # Draw single plots
     for (i in 1:length(data)) {
+        filedat <- new_graph(filedat)
         plotdat <- draw_normal(data[[i]], plotdat, FALSE)
     }
 
     # Draw all together
     plotdat <- reset_plotdat()
+    filedat <- new_graph(filedat)
     plot(0, type="n", xlab="", ylab="", main="", axes = FALSE) # create empty graph.
     for (i in 1:length(data)) {
         plotdat <- draw_normal(data[[i]], plotdat, TRUE)
@@ -472,8 +510,9 @@ draw_summary <- function(data, protonames, all_in_one = TRUE, mode="ecdf") {
 
     data <- normalize_summary(data)
 
-    open_device(paste(names(data[[1]]$data)[2], "-", mode, "-summary", sep=""), flag_output_type)
-    plotdat <- new_page(force_separated = TRUE)
+    filedat <- open_device(paste(names(data[[1]]$data)[2], "-", mode, "-summary", sep=""))
+    filedat <- new_page(filedat, force_separated = TRUE)
+    plotdat <- reset_plotdat()
     for (dat in data) {
         if (type != dat$type[2]) {
             if (all_in_one)
@@ -481,8 +520,8 @@ draw_summary <- function(data, protonames, all_in_one = TRUE, mode="ecdf") {
             dev.off()
             type <- dat$type[2]
             unit <- dat$unit[2]
-            open_device(paste(names(dat$data)[2], "-", mode, "-summary", sep=""), flag_output_type)
-            plotdat <- new_page(force_separated = TRUE)
+            filedat <- open_device(paste(names(dat$data)[2], "-", mode, "-summary", sep=""))
+            filedat <- new_page(filedat, force_separated = TRUE)
             plotdat <- reset_plotdat()
         }
         plotdat$legend_names <- c(plotdat$legend_names, dat$name)
@@ -547,6 +586,12 @@ while(i <= argc) {
         flag_palette <- strsplit(argv[i+1], " ")[[1]]
     } else if(argv[i] == "--summary-palette") {
         flag_summary_palette <- strsplit(argv[i+1], " ")[[1]]
+    } else if(argv[i] == "--legend") {
+        flag_legend <- argv[i+1]
+    } else if(argv[i] == "--legend-in-v") {
+        flag_legend_dec[2] <- as.numeric(argv[i+1])
+    } else if(argv[i] == "--legend-in-h") {
+        flag_legend_dec[1] <- as.numeric(argv[i+1])
     } else { # 1 argument cases
         if(argv[i] == "--no-recurse") {
             recurse <- FALSE
