@@ -125,62 +125,53 @@ Results
 Graphs and raw data are provided for each test.
 
 .. note::
-   * The graphs were generated with the following command (requires the
-     `R programming language <https://www.r-project.org/>`__)::
 
-         R --vanilla --slave --args --out-type svg --separate-output --maxtime 300 --maxrtt 500 --width 9 --height 5.96 --palette "#FF0000 #005500 #0000FF #000000" results/ < generic.R
-
-     the script `generic.R
-     <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/generic.R>`__ is available on github.
+   The graphs were generated with the `generate_graphs.sh
+   <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/generate_graphs.sh>`__
+   script (requires the `R programming language
+   <https://www.r-project.org/>`__), available on github.
 
 reboot
 ^^^^^^
 
-In the reboot experience, we let the network run stable for some time, and then
-suddently reboot all routers simultaneously.  The following graph show a quick
-overview of the whole experience.
+In the *reboot* experiment, we let the network run stable for some time, and
+then suddently reboot all routers simultaneously.  The following graph show a
+quick overview of the whole experiment.
 
 (**How to read:** lower is better)
 
 .. image:: ./data/results/001-20150808/1/reboot-rtt-normal-summary.svg
    :target: ../_images/reboot-rtt-normal-summary.svg
 
-What interests us in this experience is the small part after the reboot: the
-following graph represent the :doc:`ECDF <ecdf>` graph of the ping samples taken for 50s after
-the reboot.  The x-axis is scaled to show only packets than less than 50ms: we
-see that all protocols are choosing fast routes, since in all cases, the RTT of
-the packets are below 50ms.  In this particular example though, Babel, BMX7 and
-OLSRv1, with almost all packets being under 10ms, outperforms Batman-adv and
-OLSRv2, which "only" have 80% of the packets under 10ms.
+What interests us in this experiment is the small part after the reboot: the
+following graph represent the :doc:`ECDF <ecdf>` graph of the ping samples taken
+for 50s after the reboot.  The x-axis is scaled to show only packets than less
+than 50ms: we see that all protocols are choosing fast routes, since in all
+cases, the RTT of the packets are below 50ms.  In this particular example
+though, Babel, BMX7 and OLSRv1, with almost all packets being under 10ms,
+outperforms Batman-adv and OLSRv2, which "only" have 80% of the packets under
+10ms.
 
 (**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
 .. image:: ./data/results/001-20150808/1/reboot-rtt-ecdf-zoom.svg
    :target: ../_images/reboot-rtt-ecdf-zoom.svg
 
-::
-
-   R --vanilla --slave --args --out-type svg --separate-output --mintime 140 --maxtime 200 --maxrtt 50 --width 6.4 --height 4 --palette "#FF0000 #005500 #0000FF #000000" --summary-palette "#ff1a1a #4ebe2a #f96eec #26b1dd #fcb500" --summary-only results/001-20150808/1 < generic.R
-
 Zooming at the normal graphs around time 150 gives us another precious
 informations: we see when the routing protocols begin to forward packets, which
 should reflect the convergence time of each protocol.  Regarding this benchmark,
 we observe the following convergence time:
 
-===== ====== ==== ====== ======
-Babel OLSRv2 BMX7 OLSRv1 Batman
+===== ====== ==== ====== ==========
+Babel OLSRv2 BMX7 OLSRv1 Batman-adv
 151   155    159  163    182
 +0    +4s    +8s  +12s   +23s
-===== ====== ==== ====== ======
+===== ====== ==== ====== ==========
 
 (**How to read:** lower is better)
 
 .. image:: ./data/results/001-20150808/1/reboot-rtt-normal-zoom.svg
    :target: ./images/reboot-rtt-normal-zoom.svg
-
-::
-
-   R --vanilla --slave --args --out-type svg --separate-output --mintime 140 --maxtime 200 --maxrtt 20 --width 6.4 --height 4 --palette "#FF0000 #005500 #0000FF #000000" --summary-palette "#ff1a1a #4ebe2a #f96eec #26b1dd #fcb500" --summary-only results/001-20150808/1 < generic.R
 
 .. note::
    `Raw data for this test
@@ -190,26 +181,51 @@ Babel OLSRv2 BMX7 OLSRv1 Batman
 .. warning:
 
    The time convergence is the one of only a single test.  Even if it is
-   intersting, we cannot rely on it to say that these values "are" the actual
+   interesting, we cannot rely on it to say that these values "are" the actual
    convergence time values.  For the next battlemesh, we should run more of
    these experiments.
+
+   This warning only stands for this particular experiment, which focus on a
+   specific single event.  For the others tests, we look at the behaviour of the
+   protocols in a stable environment: each sample is significant, which gives
+   reasonable good approximation.
 
 
 ping
 ^^^^
 
-Measured RTT in :doc:`ECDF <ecdf>` graph:
+In the *ping* experiment, we just measure the latency of the network with the
+`ping` tool, without any other perturbation.  We expect an extremely stable
+network, with low RTT measurements and high fairness.
+
+The following graph shows that for all protocols except Batman-adv, packets are
+routed pretty fairly, and have for 90% of them less than 5ms RTT, and for almost
+all of them less than 10ms.  Packets routed by Batman-adv are not routed fairly:
+50% are less than 4ms, 80% are less than 8ms, 90% are less than 10ms and almost
+all are less than 50ms.
 
 (**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
-.. image:: ./data/results/001-20150808/2/rtt-ecdf-summary.svg
+.. image:: ./data/results/001-20150808/2/ping-rtt-ecdf-zoom.svg
    :target: ../_images/rtt-ecdf-summary1.svg
 
-Measured RTT in classic graph:
+Looking the details shows that OLSRv1 and BMX7 are leading to the fairest and
+fastest RTT, behaving exceptionnaly well.  They are closely followed by Babel,
+which has a slight fairness pathology: most of the packets (80%) are around
+3.2ms, but around 10% are around 4ms, with a visible irregularity.  Then comes
+OLSRv2, very fair, with packets around 4.5ms (+1ms).
+
+The Babel irregularity can be explained with the following graph, giving only
+the Babel curve.  We see that the packets having a higher RTT value are grouped
+in two points.  This may happen because Babel hesitate with two paths, and
+sometimes switch to the wrong one: he then takes around 15s to decide that the
+other route was better, and stay much longer (70s minimum) on that better route.
+
+Measured RTT in classic graph (Babel only):
 
 (**How to read:** lower is better)
 
-.. image:: ./data/results/001-20150808/2/rtt-normal-summary.svg
+.. image:: ./data/results/001-20150808/2/ping-rtt-normal-babel.svg
    :target: ../_images/rtt-normal-summary1.svg
 
 .. note::
@@ -220,27 +236,40 @@ Measured RTT in classic graph:
 ping + iperf
 ^^^^^^^^^^^^
 
+In the *ping + iperf* experiment, we measure the latency of the network with the
+`ping` tool while pushing 10MB/s additionnal traffic from the client to the
+server.  The graph below shows that OLSRv2 gives the fairest results for all
+packets: and has 95% of its packets are under 20ms, against 40ms for Babel and
+BMX7, 80ms for OLSRv1, and around 820ms for Batman-adv.
+
 Measured RTT in :doc:`ECDF <ecdf>` graph:
 
 (**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
-.. image:: ./data/results/001-20150808/3/rtt-ecdf-summary.svg
+.. image:: ./data/results/001-20150808/3/pingiperf-rtt-ecdf-zoom.svg
    :target: ../_images/rtt-ecdf-summary2.svg
+
+Interestingly enough, for 75% of the packets, Babel is leading with RTT under
+9ms, but doesn't loose its fairness like the previous test, with a visible step:
+it's merely progressive.  OLSRv2, BMX7 and OLSRv1 gives RTT under 13ms, and
+Batman-adv under 65ms.
 
 Measured RTT in classic graph:
 
 (**How to read:** lower is better)
 
-.. image:: ./data/results/001-20150808/3/rtt-normal-summary.svg
+.. image:: ./data/results/001-20150808/3/pingiperf-rtt-normal.svg
    :target: ../_images/rtt-normal-summary2.svg
+
+Finally, all protocols lead to the expected bitrate (10MB/s), as we see on the
+following graph.
 
 Measured Bitrate:
 
 (**How to read:** higher is better)
 
-.. image:: ./data/results/001-20150808/3/bitrate-normal-summary.svg
+.. image:: ./data/results/001-20150808/3/pingiperf-bitrate-normal.svg
    :target: ../_images/bitrate-normal-summary.svg
-
 
 .. note::
    `Raw data for this test
