@@ -9,7 +9,7 @@
     <1-the-mesh-of-death-adversity>` because we were running out of time.
 
     Therefore this scenario inherits all the settings of the previous test
-    but adds parallel streams of traffic from **A** to **K** in order to
+    but adds parallel streams of traffic between **A** and **K** in order to
     deliberately cause disruption in the network.
 
 Test
@@ -21,16 +21,24 @@ Test
     <https://github.com/battlemesh/battlemesh-test-docs/blob/master/v8/testbed/scripts/flent-tests.sh>`__
     is available on github.
 
-The tests mainly consisted in generating a high amount of traffic from
-**client** to **server** while measuring network performance.
+The tests mainly consisted in generating a high amount of traffic between
+**client** and **server** while measuring network performance.
 
 We ran five different tests on the test setup:
 
 * Realtime Response Under Load (RRUL) test
 * Realtime Response Under Load Best Effort (RRUL_BE) test
-* 8-stream download test, designed to mimic the dslreports speedtest
-* TCP upload test
 * TCP download test
+* TCP upload test
+* 8-streams download test, designed to mimic the `dslreports speedtest <http://www.dslreports.com/speedtest>`__
+
+The point of this test series is to see what happens when the network is loaded
+to capacity (and beyond). Hence the "Blowing up the network" title of this test
+series. Since we only did a single test run, drawing conclusions from
+comparisons is not possible; but the tests can give an indication of the kind of
+behaviour that occurs at high load and point out areas for further
+investigation. And more rigorous testing with, above all, more repetitions can
+be performed to actually draw conclusions.
 
 Realtime Response Under Load (RRUL) tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -46,11 +54,31 @@ Two variants of the test were performed:
   diffserv markings matching the mapping into hardware queues in the WiFi stack
 * best-effort only (called **RRUL_BE**) in which no diffserv marking is employed
 
-8-stream download test
-^^^^^^^^^^^^^^^^^^^^^^
+A timeseries graph of the behaviour of the RRUL test looks like this:
 
-The **8-stream** download test runs eight simultaneous download streams while also
-measuring latency.
+.. image:: ./data/results/002-20150808/5/rrul-timeseries.svg
+  :target: ../_images/rrul-timeseries.svg
+
+The TCP streams start up five seconds after the ping measurements start, which
+is the flat part of the bottom-most graph. Then, after the TCP flows start, the
+latency goes up significantly, peaking at several seconds of latency and quite a
+bit of packet loss (seen as gaps in the graph). The throughput figures are
+likewise erratic and throughput is highly asymmetric. Finally, the UDP latency
+measurement flows are lost entirely; this happens because Netperf stops the
+measurement flows when encountering packet loss.
+
+The name of the data set the above graph came from is deliberately omitted. The
+point here is not to beat up on a particular protocol, but to show the general
+pattern of failure experienced. As noted above, one should be wary comparing the
+different protocols from this data set, since there was only one test run.
+Instead, consider this an indication that they all break down, and that further
+investigation (and fixes!) is needed.
+
+Aggregate results from all five protocols is available below, along with a link
+to the dataset which can be explored in further detail with the Flent tool,
+which can also run the tests for those wishing to explore the behaviour of their
+own network.
+
 
 TCP traffic tests
 ^^^^^^^^^^^^^^^^^
@@ -60,8 +88,16 @@ simultaneous latency measurement.
 
 Two different tests were performed:
 
-* TCP upload
 * TCP download
+* TCP upload
+
+8-streams download test
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The **8-stream** download test runs eight simultaneous download streams while also
+measuring latency.
+
+This test is designed to mimic the `dslreports speedtest <http://www.dslreports.com/speedtest>`__.
 
 Results
 -------
@@ -72,17 +108,21 @@ Graphs are provided for each test.
 is available on github.
 
 .. note::
-   **TODO**: add notes on how to generate the graphs.
+   The graphs were generated with `Flent (FLExible Network Tester) <https://flent.org/>`__
+   from the `raw data <https://github.com/battlemesh/battlemesh-test-docs/tree/master/v8/data/results/002-20150808/5>`__
+   collected in flent data files.
 
 Realtime Response Under Load (RRUL)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ICMP latency in ECDF graph:
+ICMP latency in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
 .. image:: ./data/results/002-20150808/5/rrul-cdf.svg
    :target: ../_images/rrul-cdf.svg
 
-ICMP latency in box graph:
+Download bandwidth, upload bandwidth and ICMP latency in box graph:
 
 .. image:: ./data/results/002-20150808/5/rrul-box.svg
   :target: ../_images/rrul-box.svg
@@ -90,29 +130,63 @@ ICMP latency in box graph:
 Realtime Response Under Load Best Effort (RRUL_BE)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ICMP latency in ECDF graph:
+ICMP latency in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
 .. image:: ./data/results/002-20150808/5/rrul_be-cdf.svg
   :target: ../_images/rrul_be-cdf.svg
 
-ICMP latency in box graph:
+Download bandwidth, upload bandwidth and ICMP latency in box graph:
 
 .. image:: ./data/results/002-20150808/5/rrul_be-box.svg
   :target: ../_images/rrul_be-box.svg
 
-8-stream download test
-^^^^^^^^^^^^^^^^^^^^^^
+TCP download
+^^^^^^^^^^^^
 
-... **TODO** ...
+Ping latency in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
+
+.. image:: ./data/results/002-20150808/5/tcp-download-cdf.svg
+  :target: ../_images/tcp-download-cdf.svg
+
+Download bandwidth and ping latency in box graph:
+
+.. image:: ./data/results/002-20150808/5/tcp-download-box.svg
+  :target: ../_images/tcp-download-box.svg
+
 
 TCP upload
 ^^^^^^^^^^
 
-... **TODO** ...
+Ping latency in :doc:`ECDF <ecdf>` graph:
 
-TCP download
-^^^^^^^^^^^^
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
 
-... **TODO** ...
+.. image:: ./data/results/002-20150808/5/tcp-upload-cdf.svg
+  :target: ../_images/tcp-upload-cdf.svg
 
-Article written by Federico Capoano.
+Upload bandwidth and ping latency in box graph:
+
+.. image:: ./data/results/002-20150808/5/tcp-upload-box.svg
+  :target: ../_images/tcp-upload-box.svg
+
+
+8-streams download test
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Ping latency in :doc:`ECDF <ecdf>` graph:
+
+(**How to read:** closer to left is better, learn more about :doc:`how to read ECDF graphs <ecdf>`)
+
+.. image:: ./data/results/002-20150808/5/8-streams-cdf.svg
+  :target: ../_images/8-streams-cdf.svg
+
+8 downloads bandwidth and ping latency in box graph:
+
+.. image:: ./data/results/002-20150808/5/8-streams-box.svg
+  :target: ../_images/8-streams-box.svg
+
+Article written by Toke Høiland-Jørgensen, Federico Capoano.
