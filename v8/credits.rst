@@ -54,7 +54,7 @@ All contributions (with more details)
 * Antonio Quartulli: configuration and debugging
 * Axel Neumann: configuration
 * Dario Stelitano: flashing and configuration
-* Dave Tath: configuration
+* Dave Täht: configuration and testing of minstrel-variance patches
 * Federico Capoano: flashing, configuration and documentation
 * Goran Mahovlić: flashing and configuration
 * Henning Rogge: configuration, debugging and test scripts
