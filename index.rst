@@ -9,6 +9,7 @@ Editions:
 .. toctree::
    :maxdepth: 2
 
+   /v9/index
    /v8/index
 
 Indices and tables
